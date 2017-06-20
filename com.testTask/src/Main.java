@@ -1,9 +1,8 @@
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Scanner;
+/**
+ *@author Anton Boyko
+ */
 
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+//write to flash works only on linux
 
 public class Main //main class of the program
 {
@@ -17,21 +16,17 @@ public class Main //main class of the program
         d.getData(url);//request data from server
         d.findData();//decode data  from xml
 
-        String PATH_TO_PROPERTIES = "prop.properties";
+        String PATH_TO_PROPERTIES = "prop.properties";//path for local creating file
 
-        d.writeToFile(PATH_TO_PROPERTIES);
+        d.writeToFile(PATH_TO_PROPERTIES);//local creating file
 
-        try
+        if (d.writeToFile())//creating file on all usb flash cards
         {
-            Scanner in = new Scanner(System.in);
-            System.out.println("Input path to folder for saving file");
-            String tmp = in.next();
-
-            Files.copy(Paths.get(PATH_TO_PROPERTIES), Paths.get(tmp), REPLACE_EXISTING);
+            System.out.println("File was written on all flash cards\n");
         }
-        catch (Exception e)
+        else
         {
-            e.printStackTrace();
+            System.out.println("Connect usb device!\n");
         }
     }
 }

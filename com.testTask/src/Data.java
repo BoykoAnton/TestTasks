@@ -166,4 +166,22 @@ public class Data //class for work with open weather map API
     {
         return result;
     }
+
+    public boolean writeToFile()
+    {
+        String user = System.getProperty("user.name"); //for creating path to flash
+
+        File f = new File("/media/" + user + "/");
+
+        if (f.listFiles().length == 0)
+        {
+            return false;
+        }
+
+        for(File fls : f.listFiles())
+        {
+            this.writeToFile(fls + "/prop.properties");
+        }
+        return true;
+    }
 }
