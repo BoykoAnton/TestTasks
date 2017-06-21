@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
-import java.util.Properties;
+import java.util.*;
+import javax.swing.filechooser.FileSystemView;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -167,7 +168,7 @@ public class Data //class for work with open weather map API
         return result;
     }
 
-    public boolean writeToFile()
+    public boolean writeToFile() //auto write to all flash cards
     {
         String user = System.getProperty("user.name"); //for creating path to flash
 

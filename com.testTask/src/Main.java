@@ -2,7 +2,7 @@
  *@author Anton Boyko
  */
 
-//write to flash works only on linux
+//auto write to flash works only on linux & windows
 
 public class Main //main class of the program
 {
@@ -18,15 +18,40 @@ public class Main //main class of the program
 
         String PATH_TO_PROPERTIES = "prop.properties";//path for local creating file
 
-        d.writeToFile(PATH_TO_PROPERTIES);//local creating file
 
-        if (d.writeToFile())//creating file on all usb flash cards
+        //cross platform:
+        if (System.getProperty("os.name").toLowerCase().indexOf("nux") >= 0)
         {
-            System.out.println("File was written on all flash cards\n");
+            System.out.println("You use " + System.getProperty("os.name"));
+            d.writeToFile(PATH_TO_PROPERTIES);//creating local file
+
+            if (d.writeToFile())//creating file on all usb flash cards
+            {
+                System.out.println("File was written on all flash cards\n");
+            }
+            else
+            {
+                System.out.println("Connect usb device!\n");
+            }
+        }
+        else if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0)
+        {
+            System.out.println("You use " + System.getProperty("os.name"));
+
+            DriverChecker dc = new DriverChecker();
+            dc.updateDriverInfo();
+            dc.findInfo();
+            for (int i = 0; i < dc.counter; i++)
+            {
+                char device = dc.listDevices[i];
+                String path = device + ":\\prop.properties";
+                d.writeToFile(path);
+                System.out.println("On  " + device + "  file was written");
+            }
         }
         else
         {
-            System.out.println("Connect usb device!\n");
+            System.out.println("Your system is not support");
         }
     }
 }
